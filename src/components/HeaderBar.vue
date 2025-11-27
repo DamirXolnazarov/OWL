@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router'
 
 <template>
   <header
-    class="fixed top-0 left-0 w-full h-[75px] flex justify-between items-center bg-base-100/70 backdrop-blur-md shadow-sm border-b border-base-300 z-50"
+    class="top-0 left-0 w-full h-[75px] flex justify-between items-center bg-base-100/70 backdrop-blur-md shadow-sm border-b border-base-300 z-50"
   >
     <!-- Left: Logo -->
     <div class="flex items-center gap-2">
@@ -74,7 +74,7 @@ span {
   font-weight: 500;
 }
 header{
-  padding: 0px 50px;
+  padding: 0px 50px 0px 90px;
 }
 .input{
   padding: 0px 15px;
