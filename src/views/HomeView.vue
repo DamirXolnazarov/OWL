@@ -163,15 +163,14 @@ import bannerImage from '../assets/landingpage.png'
               missed, and watch your progress grow over time.</span
             >
           </div>
-          <div class="quizzes_buttons flex-col flex justify-between">
-            <button class="btn" data-cursor="light" id="btn5">Start Quiz</button>
-
-            <button class="btn" data-cursor="light" id="btn6">Explore Quizzes</button>
+          <div class="quizzes_buttons w-full flex-col flex h-[140px] justify-between">
+            <button class="btn btn5" id="btn5">Start Quiz</button>
+            <button class="btn btn6" id="btn6">Explore Quizzes</button>
           </div>
         </div>
         <div class="quizzes_right">
           <div class="quizzes_numbers flex flex-row justify-between">
-            <div class="number1">
+            <div class="number">
               <div class="number_box">
 
                 <vue3-autocounter
@@ -186,8 +185,9 @@ import bannerImage from '../assets/landingpage.png'
                 @finished="alert(`Counting finished!`)"
                 />
               </div>
+              <span class="blah">Quizzes</span>
               </div>
-            <div class="number2">
+            <div class="number">
               <div class="number_box">
 
                 <vue3-autocounter
@@ -202,11 +202,12 @@ import bannerImage from '../assets/landingpage.png'
                 @finished="alert(`Counting finished!`)"
                 />
               </div>
-            </div>
-            <div class="number3">
-               <div class="number_box">
+              <span class="blah">Completed</span>
+              </div>
+            <div class="number">
+              <div class="number_box">
 
-                <vue3-autocounter class="vue3-autocounter"
+                <vue3-autocounter
                 ref="counter"
                 :startAmount="0"
                 :endAmount="143"
@@ -218,7 +219,8 @@ import bannerImage from '../assets/landingpage.png'
                 @finished="alert(`Counting finished!`)"
                 />
               </div>
-            </div>
+              <span class="blah">New</span>
+              </div>
           </div>
           <div class="quizzes_banner">
             <img src="../assets/quizz.png" alt="" />
@@ -226,17 +228,117 @@ import bannerImage from '../assets/landingpage.png'
         </div>
       </div>
     </section>
+
+    <section class="footer">
+      <footer class="footer">
+    <div class="footer-content">
+
+      <!-- Logo Section -->
+      <div class="footer-left">
+        <!-- Put your logo here -->
+        <img src="../assets/logo_white.png" alt="Logo" class="footer-logo" />
+      </div>
+
+      <!-- Navigation -->
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/friends">Friends</a>
+        <a href="/books">Books</a>
+        <a href="/about">About</a>
+      </div>
+
+      <!-- Socials -->
+      <div class="footer-right text-left">
+        <p>© 2026 Owl <br> created by Damirbek Kholnazarov</p>
+      </div>
+    </div>
+  </footer>
+    </section>
   </main>
 </template>
 
 <style scoped>
-.vue3-autocounter{
+.footer {
+  width: 100%;
+  background: #0f0f10;
+  padding: 24px 0;
+  color: white;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-content {
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-logo {
+  width: 100px;
+  object-fit: contain;
+}
+
+.footer-brand {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-links a {
+  color: #d8d8d8;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.footer-links a:hover {
+  color: white;
+}
+
+.footer-right {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+
+
+
+.number{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 180px;
+  padding: 20px 0px;
+}
+.number_box{
+  display: block;
+  width: 150px;
+  height: 90px;
+  border-radius: 10px;
+  background: #7BACCE;
+  opacity: 48%;
   font-family: 'Poppins';
   color: #fff;
   font-size: 64px;
   font-weight: bold;
 }
-
+.blah{
+  font-size: 20px;
+  font-weight: 700;
+}
 .quizzes_title span {
   font-family: 'Poppins';
   font-style: normal;
@@ -248,7 +350,7 @@ import bannerImage from '../assets/landingpage.png'
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 400;
-  font-size: 19px;
+  font-size: 23px;
   color: #4f5565;
 }
 
@@ -353,20 +455,22 @@ main {
   border: 3px solid #3ab4b4;
   background: #3ab4b4;
 }
-#btn5 {
+.btn5 {
+  width: 250px;
   padding: 20px 40px;
   font-weight: 500;
   color: #b5d1e7;
-  font-size: 17px;
+  font-size: 18px;
   border-radius: 10px;
   border: 3px solid #b5d1e7;
 }
 
-#btn6 {
+.btn6 {
+  width: 250px;
   padding: 20px 40px;
   font-weight: 500;
   color: #ffffff;
-  font-size: 17px;
+  font-size: 18px;
   border-radius: 10px;
   border: 3px solid #b5d1e7;
   background: #b5d1e7;

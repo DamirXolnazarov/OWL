@@ -7,9 +7,12 @@ import { RouterLink } from 'vue-router'
     class="top-0 left-0 w-full h-[75px] flex justify-between items-center bg-base-100/70 backdrop-blur-md shadow-sm border-b border-base-300 z-50"
   >
     <!-- Left: Logo -->
-    <div class="flex items-center gap-2">
-      <img src="../assets/logo.png" alt="Logo" class="h-[45px]" />
-    </div>
+     <router-link to="/">
+
+       <div class="flex items-center gap-2">
+         <img src="../assets/logo.png" alt="Logo" class="h-[45px]" />
+        </div>
+      </router-link>
 
     <!-- Center: Search -->
     <div class="hidden md:flex items-center w-[350px]">
