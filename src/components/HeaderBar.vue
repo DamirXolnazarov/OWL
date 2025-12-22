@@ -33,7 +33,7 @@ import { RouterLink } from 'vue-router'
             d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"
           />
         </svg>
-        <input
+        <input 
           type="search"
           placeholder="Search"
           class="grow bg-transparent outline-none"

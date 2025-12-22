@@ -74,7 +74,7 @@ import bannerImage from '../assets/landingpage.png'
           </div>
           <div class="container_text_subtitle text-left">
             <span class="text-lg">
-              Connect with your friends and make reading more fun. See what they’re exploring, share
+              Connect with your friends and make reading more fun.See what they’re exploring, share
               book suggestions, and start meaningful discussions together.
             </span>
           </div>

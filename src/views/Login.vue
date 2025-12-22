@@ -1,8 +1,15 @@
+<script setup>
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth"
+import { doc, setDoc, getDoc } from "firebase/firestore"
+import { auth, db } from "../firebase"
+
+</script>
+
 <template>
   <section class="w-full h-full flex flex-row justify-center items-center">
     <div class="login w-[390px] shadow-md flex flex-col justify-between items-center bg-[#000] h-[430px]">
       <div class="title w-full flex justify-center">
-        <span class="text-center text-5xl text-white">Login</span>
+        <span class="text-center text-5xl text-white">Sign In</span>
       </div>
       <div class="inputs h-[210px] flex flex-col justify-between w-full">
         <div class="input_email w-full flex flex-col justify-between h-[80px]">
@@ -41,18 +48,68 @@ export default {
     }
   },
   methods: {
-    check() {
-      for (let i of this.email.split('')) {
-        if (i == '@' && this.email.split('@')[0] == this.password) {
-          this.correct_account = true
-          this.$router.push('/dashboard')
+    async ensureUserExists(user) {
+  const userRef = doc(db, "users", user.uid)
+  const snap = await getDoc(userRef)
 
-        } 
+  if (!snap.exists()) {
+    const username = this.email.split("@")[0]
+
+    await setDoc(userRef, {
+      email: this.email,
+      username,
+      createdAt: new Date(),
+      stats: {
+        booksInProgress: {
+          author: '',
+          name: '',
+          pages: 0,
+          type: [],
+          rating: 0,
+        },
+        booksCompleted: 0,
+        pagesRead: 0,
+        quizzesCompleted: 0,
+        friends: [],
+        clubs: [],
       }
-      if (this.correct_account == false) {
-        this.visible=false
-      }
-    },
+    })
+  }
+},
+
+    async check() {
+  this.visible = true
+
+  try {
+    // try login
+    const cred = await signInWithEmailAndPassword(
+      auth,
+      this.email,
+      this.password
+    )
+
+    await this.ensureUserExists(cred.user)
+    this.$router.push('/dashboard')
+
+  } catch (error) {
+    try {
+      // if user doesn't exist → create account
+      const cred = await createUserWithEmailAndPassword(
+        auth,
+        this.email,
+        this.password
+      )
+
+      await this.ensureUserExists(cred.user)
+      this.$router.push('/dashboard')
+
+    } catch {
+      // wrong password, weak password, etc.
+      this.visible = false
+    }
+  }
+}
+
   },
 }
 </script>
