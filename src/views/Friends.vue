@@ -28,6 +28,7 @@
     </div>
 
     </div>
+         <h1 class="text-[50px] title text-center font-semibold">Friends</h1>
     <div class="people flex flex-col items-center gap-[15px]">
       <div v-for="user in filteredUsers" :key="user.id" class="person-card flex flex-row justify-between">
         <div class="left flex flex-col items-start justify-center">
@@ -114,6 +115,7 @@ export default {
 <style scoped>
 .input{
   padding: 0px 15px;
+  margin-bottom: 20px;
 }
 .person-card {
   width: 900px;
@@ -133,6 +135,6 @@ export default {
   border: none;
 }
 .people{
-    padding-top: 40px;
+    padding-top: 20px;
 }
 </style>

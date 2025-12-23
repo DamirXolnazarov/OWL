@@ -1,5 +1,13 @@
 <script setup>
 import { RouterLink } from 'vue-router'
+import { auth } from '@/firebase'
+import { onAuthStateChanged } from 'firebase/auth'
+import { ref } from 'vue'
+const isSignedIn = ref(false)
+
+onAuthStateChanged(auth, (user) => {
+  isSignedIn.value = !!user
+})
 </script>
 
 <template>
@@ -7,7 +15,7 @@ import { RouterLink } from 'vue-router'
     class="top-0 left-0 w-full h-[75px] flex justify-between items-center bg-base-100/70 backdrop-blur-md shadow-sm border-b border-base-300 z-50"
   >
     <!-- Left: Logo -->
-     <router-link to="/">
+     <router-link :to="isSignedIn ? '/dashboard' : '/'">
 
        <div class="flex items-center gap-2">
          <img src="../assets/logo.png" alt="Logo" class="h-[45px]" />

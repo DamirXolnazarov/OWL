@@ -1,0 +1,44 @@
+{
+  "books": [
+    {
+      "id": "book_001",
+      "name": "1984",
+      "author": "George Orwell",
+      "pages": 328,
+      "type": ["Dystopian", "Political Fiction"],
+      "rating": 4.8
+    },
+    {
+      "id": "book_002",
+      "name": "The Alchemist",
+      "author": "Paulo Coelho",
+      "pages": 208,
+      "type": ["Philosophy", "Adventure"],
+      "rating": 4.5
+    },
+    {
+      "id": "book_003",
+      "name": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "pages": 281,
+      "type": ["Classic", "Coming-of-age"],
+      "rating": 4.9
+    },
+    {
+      "id": "book_004",
+      "name": "Fahrenheit 451",
+      "author": "Ray Bradbury",
+      "pages": 249,
+      "type": ["Dystopian", "Science Fiction"],
+      "rating": 4.6
+    },
+    {
+      "id": "book_005",
+      "name": "Animal Farm",
+      "author": "George Orwell",
+      "pages": 112,
+      "type": ["Political Allegory", "Satire"],
+      "rating": 4.7
+    }
+  ]
+}
