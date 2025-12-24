@@ -36,6 +36,11 @@
       </div>
     </div>
 
+    <!-- ADD BOOK -->
+    <div v-if="!currentBook">
+      <button class="btn adding" @click="addBookModal = true">Add a Book</button>
+    </div>
+
     <!-- COMPLETED BOOKS -->
     <div v-if="completedBooks.length" class="completed_books w-full flex flex-col gap-4">
       <h2 class="text-2xl font-bold">Completed Books</h2>
@@ -73,37 +78,27 @@
           </div>
 
           <div class="flex justify-between">
-  <button
-    v-if="!book.reflected"
-    class="btn btttns btn-sm bg-green-500 text-white"
-    @click="openReflectModal(index)"
-  >
-    Reflect
-  </button>
+            <button
+              v-if="!book.reflected"
+              class="btn btttns btn-sm bg-green-500 text-white"
+              @click="openReflectModal(index)"
+            >
+              Reflect
+            </button>
 
-  <button
-    v-else
-    class="btn btttns btn-sm"
-    @click="openReflectModal(index)"
-  >
-    Change
-  </button>
+            <button v-else class="btn btttns btn-sm" @click="openReflectModal(index)">
+              Change
+            </button>
 
-  <button
-    class="btn btttns btn-sm bg-red-500 text-white"
-    @click="deleteCompletedBook(index)"
-  >
-    Delete
-  </button>
-</div>
-
+            <button
+              class="btn btttns btn-sm bg-red-500 text-white"
+              @click="deleteCompletedBook(index)"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- ADD BOOK -->
-    <div v-if="!currentBook">
-      <button class="btn adding" @click="addBookModal = true">Add a Book</button>
     </div>
 
     <!-- ADD BOOK MODAL -->
@@ -279,14 +274,19 @@ export default {
       if (!snap.exists()) return
 
       this.userData = snap.data()
+
+      // Load current book if exists
       this.currentBook = this.userData.stats.booksInProgress?.name
         ? this.userData.stats.booksInProgress
         : null
-      this.pagesRead = this.userData.stats.pagesRead || 0
+
+      // Set pagesRead to the current book's progress, or 0 if no current book
+      this.pagesRead = this.currentBook?.pagesRead || 0
+
+      // Load completed books
       this.completedBooks = this.userData.stats.completedBooks || []
     })
   },
-
   methods: {
     toggleGenre(genre) {
       if (this.newBook.type.includes(genre)) {
@@ -300,50 +300,46 @@ export default {
       return t.trim() ? t.trim().split(/\s+/).length : 0
     },
 
-   async updateProgress() {
-  if (!this.currentBook) return
-  const userRef = doc(db, 'users', auth.currentUser.uid)
+    async updateProgress() {
+      if (!this.currentBook) return
+      const userRef = doc(db, 'users', auth.currentUser.uid)
 
-  // 1. Update currentBook pages read
-  this.currentBook.pagesRead = this.pagesRead
+      // 1. Update currentBook pages read
+      this.currentBook.pagesRead = this.pagesRead
 
-  // 2. Calculate total pages read including completed books
-  const completedPages = this.completedBooks.reduce(
-    (sum, book) => sum + (book.pages || 0),
-    0
-  )
-  const totalPagesRead = completedPages + (this.currentBook.pagesRead || 0)
+      // 2. Calculate total pages read including completed books
+      const completedPages = this.completedBooks.reduce((sum, book) => sum + (book.pages || 0), 0)
+      const totalPagesRead = completedPages + (this.currentBook.pagesRead || 0)
 
-  // 3. Update Firestore
-  await updateDoc(userRef, {
-    'stats.booksInProgress.pagesRead': this.currentBook.pagesRead,
-    'stats.pagesRead': totalPagesRead,
-  })
+      // 3. Update Firestore
+      await updateDoc(userRef, {
+        'stats.booksInProgress.pagesRead': this.currentBook.pagesRead,
+        'stats.pagesRead': totalPagesRead,
+      })
 
-  // 4. If book finished, move to completedBooks
-  if (this.pagesRead >= this.currentBook.pages) {
-    alert(`You successfully finished the book "${this.currentBook.name}"!`)
-    
-    const completedBook = {
-      ...this.currentBook,
-      rating: 0,
-      reflection: '',
-      reflected: false,
-    }
+      // 4. If book finished, move to completedBooks
+      if (this.pagesRead >= this.currentBook.pages) {
+        alert(`You successfully finished the book "${this.currentBook.name}"!`)
 
-    // Add to completed books locally and Firestore
-    this.completedBooks.push(completedBook)
-    await updateDoc(userRef, {
-      'stats.completedBooks': this.completedBooks,
-      'stats.booksInProgress': {},
-      'stats.pagesRead': completedPages + completedBook.pages, // include finished book
-    })
+        const completedBook = {
+          ...this.currentBook,
+          rating: 0,
+          reflection: '',
+          reflected: false,
+        }
 
-    this.currentBook = null
-    this.pagesRead = 0
-  }
-}
-,
+        // Add to completed books locally and Firestore
+        this.completedBooks.push(completedBook)
+        await updateDoc(userRef, {
+          'stats.completedBooks': this.completedBooks,
+          'stats.booksInProgress': {},
+          'stats.pagesRead': completedPages + completedBook.pages, // include finished book
+        })
+
+        this.currentBook = null
+        this.pagesRead = 0
+      }
+    },
     async submitNewBook() {
       // RESET ERROR
       this.genreError = false
@@ -379,38 +375,36 @@ export default {
     },
 
     openReflectModal(index) {
-       this.reflectingIndex = index
-  this.reflectionRating = this.completedBooks[index].rating || 0
-  this.reflectionText = this.completedBooks[index].reflection || ''
-  this.reflectModal = true
+      this.reflectingIndex = index
+      this.reflectionRating = this.completedBooks[index].rating || 0
+      this.reflectionText = this.completedBooks[index].reflection || ''
+      this.reflectModal = true
     },
 
     async submitReflection() {
-  if (!this.reflectionRating || this.wordCount(this.reflectionText) > 400) return
+      if (!this.reflectionRating || this.wordCount(this.reflectionText) > 400) return
 
-  const index = this.reflectingIndex
-  if (index === null) return
+      const index = this.reflectingIndex
+      if (index === null) return
 
-  // UPDATE EXISTING BOOK
-  this.completedBooks[index] = {
-    ...this.completedBooks[index],
-    rating: this.reflectionRating,
-    reflection: this.reflectionText,
-    reflected: true, // <-- IMPORTANT FLAG
-  }
+      // UPDATE EXISTING BOOK
+      this.completedBooks[index] = {
+        ...this.completedBooks[index],
+        rating: this.reflectionRating,
+        reflection: this.reflectionText,
+        reflected: true, // <-- IMPORTANT FLAG
+      }
 
-  await updateDoc(doc(db, 'users', auth.currentUser.uid), {
-    'stats.completedBooks': this.completedBooks,
-  })
+      await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+        'stats.completedBooks': this.completedBooks,
+      })
 
-  // reset modal state
-  this.reflectModal = false
-  this.reflectingIndex = null
-  this.reflectionRating = 0
-  this.reflectionText = ''
-}
-,
-
+      // reset modal state
+      this.reflectModal = false
+      this.reflectingIndex = null
+      this.reflectionRating = 0
+      this.reflectionText = ''
+    },
     editCompletedBook(index) {
       const book = this.completedBooks.splice(index, 1)[0]
       this.currentBook = book
@@ -420,9 +414,18 @@ export default {
     },
 
     async deleteCompletedBook(index) {
+      const book = this.completedBooks[index]
+
+      // Subtract pages from total pagesRead
+      this.userData.stats.pagesRead -= book.pages
+
+      // Remove book from local array
       this.completedBooks.splice(index, 1)
+
+      // Update Firestore
       await updateDoc(doc(db, 'users', auth.currentUser.uid), {
         'stats.completedBooks': this.completedBooks,
+        'stats.pagesRead': this.userData.stats.pagesRead,
       })
     },
   },
