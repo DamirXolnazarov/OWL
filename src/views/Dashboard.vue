@@ -36,7 +36,7 @@ import { onAuthStateChanged } from 'firebase/auth'
               <span>Quizzes: {{userData?.stats.quizzesCompleted}}</span>
             </div>
             <div class="sp">
-              <span>Overall XP: {{userData?.stats.quizzesCompleted * 10 + userData?.stats.pagesRead * 10 + userData?.stats.completedBooks * 100}}</span>
+              <span>Overall XP: {{userData?.stats.quizzesCompleted + userData?.stats.pagesRead + userData?.stats.completedBooks * 10}}</span>
             </div>
           </div>
           <div class="improve">
