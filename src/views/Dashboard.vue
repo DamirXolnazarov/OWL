@@ -27,7 +27,7 @@ import { onAuthStateChanged } from 'firebase/auth'
           <span class="font-[600]">Your Stats:</span>
           <div class="stats flex flex-col text-left justify-between">
             <div class="sp">
-              <span>Books: {{userData?.stats.booksCompleted}}</span>
+              <span>Books: {{userData?.stats.completedBooks.length}}</span>
             </div>
             <div class="sp">
               <span>Pages: {{userData?.stats.pagesRead}}</span>
@@ -36,7 +36,7 @@ import { onAuthStateChanged } from 'firebase/auth'
               <span>Quizzes: {{userData?.stats.quizzesCompleted}}</span>
             </div>
             <div class="sp">
-              <span>Overall XP: {{userData?.stats.quizzesCompleted * 10 + userData?.stats.pagesRead * 10 + userData?.stats.booksCompleted * 100}}</span>
+              <span>Overall XP: {{userData?.stats.quizzesCompleted * 10 + userData?.stats.pagesRead * 10 + userData?.stats.completedBooks * 100}}</span>
             </div>
           </div>
           <div class="improve">

@@ -28,11 +28,11 @@
         </div>
       </div>
 
-      <div class="flex justify-between mt-2">
+      <div class="flex justify-center mt-2">
         <button class="btn btttns bg-red-500 text-white" @click="deleteCurrentBook">Delete</button>
-        <button class="btn btttns bg-green-600 text-white" @click="openReflectModal">
+        <!-- <button class="btn btttns bg-green-600 text-white" @click="openReflectModal">
           Reflect
-        </button>
+        </button> -->
       </div>
     </div>
 
@@ -73,14 +73,30 @@
           </div>
 
           <div class="flex justify-between">
-            <button class="btn btttns btn-sm" @click="editCompletedBook(index)">Change</button>
-            <button
-              class="btn btttns btn-sm bg-red-500 text-white"
-              @click="deleteCompletedBook(index)"
-            >
-              Delete
-            </button>
-          </div>
+  <button
+    v-if="!book.reflected"
+    class="btn btttns btn-sm bg-green-500 text-white"
+    @click="openReflectModal(index)"
+  >
+    Reflect
+  </button>
+
+  <button
+    v-else
+    class="btn btttns btn-sm"
+    @click="openReflectModal(index)"
+  >
+    Change
+  </button>
+
+  <button
+    class="btn btttns btn-sm bg-red-500 text-white"
+    @click="deleteCompletedBook(index)"
+  >
+    Delete
+  </button>
+</div>
+
         </div>
       </div>
     </div>
@@ -120,42 +136,46 @@
 
         <!-- GENRE DROPDOWN -->
         <!-- Genre Selection Modal / List -->
-<div class="w-full relative">
-  <button
-    @click="genreModalOpen = !genreModalOpen"
-    class="btn w-full justify-between nimadir"
-  >
-    {{ newBook.type.length ? newBook.type.join(', ') : 'Select Genres (up to 3)' }}
-    <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-    </svg>
-  </button>
+        <div class="w-full relative">
+          <button
+            @click="genreModalOpen = !genreModalOpen"
+            class="btn w-full justify-between nimadir"
+          >
+            {{ newBook.type.length ? newBook.type.join(', ') : 'Select Genres (up to 3)' }}
+            <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
 
-  <!-- Modal-style List -->
-  <div
-    v-if="genreModalOpen"
-    class="absolute z-50 w-full max-h-60 overflow-auto bg-base-100 shadow-lg rounded "
-  >
-    <ul class="flex flex-col ">
-      <li v-for="genre in allGenres" :key="genre">
-        <label class="flex items-center h-[15px] text-[15px] gap-2 cursor-pointer">
-          <input
-            type="checkbox"
-            class="checkbox checkbox-primary h-[16px]"
-            :value="genre"
-            v-model="newBook.type"
-            :disabled="!newBook.type.includes(genre) && newBook.type.length >= 3"
-          />
-          <span>{{ genre }}</span>
-        </label>
-      </li>
-    </ul>
-    <div class="flex justify-center">
-      <button @click="genreModalOpen = false" class="btn btttns btn-sm">Done</button>
-    </div>
-  </div>
-</div>
-
+          <!-- Modal-style List -->
+          <div
+            v-if="genreModalOpen"
+            class="absolute z-50 w-full max-h-60 overflow-auto bg-base-100 shadow-lg rounded"
+          >
+            <ul class="flex flex-col">
+              <li v-for="genre in allGenres" :key="genre">
+                <label class="flex items-center h-[15px] text-[15px] gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    class="checkbox checkbox-primary h-[16px]"
+                    :value="genre"
+                    v-model="newBook.type"
+                    :disabled="!newBook.type.includes(genre) && newBook.type.length >= 3"
+                  />
+                  <span>{{ genre }}</span>
+                </label>
+              </li>
+            </ul>
+            <div class="flex justify-center">
+              <button @click="genreModalOpen = false" class="btn btttns btn-sm">Done</button>
+            </div>
+          </div>
+        </div>
 
         <div class="flex justify-around">
           <button class="btn btttns bg-gray-400 text-white" @click="addBookModal = false">
@@ -228,13 +248,14 @@ export default {
       completedBooks: [],
       pagesRead: 0,
       genreError: false,
+      reflectingIndex: null,
 
       addBookModal: false,
       reflectModal: false,
 
       reflectionRating: 0,
       reflectionText: '',
-genreModalOpen: false,
+      genreModalOpen: false,
       allGenres: [
         'Fiction',
         'Non-fiction',
@@ -279,13 +300,50 @@ genreModalOpen: false,
       return t.trim() ? t.trim().split(/\s+/).length : 0
     },
 
-    async updateProgress() {
-      if (!this.currentBook) return
-      await updateDoc(doc(db, 'users', auth.currentUser.uid), {
-        'stats.pagesRead': this.pagesRead,
-      })
-    },
+   async updateProgress() {
+  if (!this.currentBook) return
+  const userRef = doc(db, 'users', auth.currentUser.uid)
 
+  // 1. Update currentBook pages read
+  this.currentBook.pagesRead = this.pagesRead
+
+  // 2. Calculate total pages read including completed books
+  const completedPages = this.completedBooks.reduce(
+    (sum, book) => sum + (book.pages || 0),
+    0
+  )
+  const totalPagesRead = completedPages + (this.currentBook.pagesRead || 0)
+
+  // 3. Update Firestore
+  await updateDoc(userRef, {
+    'stats.booksInProgress.pagesRead': this.currentBook.pagesRead,
+    'stats.pagesRead': totalPagesRead,
+  })
+
+  // 4. If book finished, move to completedBooks
+  if (this.pagesRead >= this.currentBook.pages) {
+    alert(`You successfully finished the book "${this.currentBook.name}"!`)
+    
+    const completedBook = {
+      ...this.currentBook,
+      rating: 0,
+      reflection: '',
+      reflected: false,
+    }
+
+    // Add to completed books locally and Firestore
+    this.completedBooks.push(completedBook)
+    await updateDoc(userRef, {
+      'stats.completedBooks': this.completedBooks,
+      'stats.booksInProgress': {},
+      'stats.pagesRead': completedPages + completedBook.pages, // include finished book
+    })
+
+    this.currentBook = null
+    this.pagesRead = 0
+  }
+}
+,
     async submitNewBook() {
       // RESET ERROR
       this.genreError = false
@@ -320,32 +378,38 @@ genreModalOpen: false,
       })
     },
 
-    openReflectModal() {
-      this.reflectModal = true
-      this.reflectionRating = 0
-      this.reflectionText = ''
+    openReflectModal(index) {
+       this.reflectingIndex = index
+  this.reflectionRating = this.completedBooks[index].rating || 0
+  this.reflectionText = this.completedBooks[index].reflection || ''
+  this.reflectModal = true
     },
 
     async submitReflection() {
-      if (!this.reflectionRating || this.wordCount(this.reflectionText) > 400) return
+  if (!this.reflectionRating || this.wordCount(this.reflectionText) > 400) return
 
-      const book = {
-        ...this.currentBook,
-        rating: this.reflectionRating,
-        reflection: this.reflectionText,
-      }
+  const index = this.reflectingIndex
+  if (index === null) return
 
-      this.completedBooks.push(book)
+  // UPDATE EXISTING BOOK
+  this.completedBooks[index] = {
+    ...this.completedBooks[index],
+    rating: this.reflectionRating,
+    reflection: this.reflectionText,
+    reflected: true, // <-- IMPORTANT FLAG
+  }
 
-      await updateDoc(doc(db, 'users', auth.currentUser.uid), {
-        'stats.completedBooks': this.completedBooks,
-        'stats.booksInProgress': {},
-        'stats.pagesRead': 0,
-      })
+  await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+    'stats.completedBooks': this.completedBooks,
+  })
 
-      this.currentBook = null
-      this.reflectModal = false
-    },
+  // reset modal state
+  this.reflectModal = false
+  this.reflectingIndex = null
+  this.reflectionRating = 0
+  this.reflectionText = ''
+}
+,
 
     editCompletedBook(index) {
       const book = this.completedBooks.splice(index, 1)[0]
@@ -366,9 +430,9 @@ genreModalOpen: false,
 </script>
 
 <style scoped>
-  .nimadir{
-    padding: 10px 15px;
-  }
+.nimadir {
+  padding: 10px 15px;
+}
 .btttns {
   padding: 15px 25px;
 }
