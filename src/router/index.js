@@ -6,6 +6,7 @@ import Friends from '@/views/Friends.vue'
 import Leaderboard from '@/views/Leaderboard.vue'
 import MyBooks from '@/views/MyBooks.vue'
 import Quizzes from '@/views/Quizzes.vue'
+import Profile from '@/views/Profile.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/quizzes',
       name: 'quizzes',
       component: Quizzes,
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: Profile,
     },
     // {
     //   path: '/about',

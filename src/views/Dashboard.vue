@@ -36,11 +36,11 @@ import { onAuthStateChanged } from 'firebase/auth'
               <span>Quizzes: {{userData?.stats.quizzesCompleted}}</span>
             </div>
             <div class="sp">
-              <span>Overall XP: {{userData?.stats.quizzesCompleted + userData?.stats.pagesRead + userData?.stats.completedBooks * 10}}</span>
+              <span>Overall XP: {{ this.totalXP }}</span>
             </div>
           </div>
           <div class="improve">
-            <button class="upd_btn btn">Update</button>
+            <button class="upd_btn btn" @click="$router.push('/mybooks')">Update</button>
           </div>
         </div>
         <div class="first_layer3 text-center w-[33%] h-[270px]">
@@ -100,7 +100,7 @@ import { onAuthStateChanged } from 'firebase/auth'
       </div>
       <div class="second_layer flex flex-row justify-between gap-7">
         <div class="second_layer1 w-[30%] h-[250px]">
-<div class="noclubs w-full h-full text-center flex flex-col items-center justify-between">
+<div v-if="userData?.stats.clubs.length == 0" class="noclubs w-full h-full text-center flex flex-col items-center justify-between">
   <span class="font-[600]">You don't have clubs yet</span>
   <img src="../assets/clubs.png" class="w-[100px] opacity-[50%]" alt="">
   <button class="clubBtn btn">Explore Clubs</button>
@@ -108,12 +108,16 @@ import { onAuthStateChanged } from 'firebase/auth'
 
         </div>
         <div class="second_layer2 w-[40%] h-[250px]">
-<div class="noclubs w-full h-full text-center flex flex-col items-center justify-between">
+<div v-if="userData?.stats.friends.length == 0" class="noclubs w-full h-full text-center flex flex-col items-center justify-between">
   <span class="font-[600]">You don't have friends yet</span>
   <img src="../assets/friends.png" class="w-[80px] opacity-[50%]" alt="">
   <button class="clubBtn btn">Add Friends</button>
 </div>
-
+<!-- <div  v-if="userData?.stats.friends.length !== 0" class="frieeends">
+  <div class="friends_card" v-for="friend in userData?.stats.friends">     ADD THIS ---------------------------->
+    <!-- <span>friend.username</span>
+  </div> -->
+<!-- </div>  -->
         </div>
         <div class="second_layer3 w-[30%] h-[250px]">
           <div class="quizzes text-center">
@@ -168,6 +172,7 @@ export default {
   data() {
     return {
       userData: null,
+      totalXP:0,
     }
   },
 
@@ -180,6 +185,7 @@ export default {
 
       if (snap.exists()) {
         this.userData = snap.data()
+        this.totalXP = this.userData.stats.completedBooks.length * 10 + this.userData.stats.pagesRead + this.userData.stats.quizzesCompleted
       }
     })
   },
