@@ -24,8 +24,8 @@ import { onAuthStateChanged } from 'firebase/auth'
           </div>
         </div>
         <div class="first_layer2 flex flex-col text-center justify-between w-[17%] h-[270px]">
-          <span class="font-[600]">Your Stats:</span>
-          <div class="stats flex flex-col text-left justify-between">
+          <span class="font-[600] text-[20px]">Your Stats:</span>
+          <div class="stats text-[18px] flex flex-col text-left justify-between">
             <div class="sp">
               <span>Books: {{userData?.stats.completedBooks.length}}</span>
             </div>
@@ -33,7 +33,7 @@ import { onAuthStateChanged } from 'firebase/auth'
               <span>Pages: {{userData?.stats.pagesRead}}</span>
             </div>
             <div class="sp">
-              <span>Quizzes: {{userData?.stats.quizzesCompleted}}</span>
+              <span>Quizzes: {{userData?.stats.quizzesCompleted.length}}</span>
             </div>
             <div class="sp">
               <span>Overall XP: {{ this.totalXP }}</span>
@@ -173,6 +173,7 @@ export default {
     return {
       userData: null,
       totalXP:0,
+      quizScore: 0,
     }
   },
 
@@ -185,7 +186,10 @@ export default {
 
       if (snap.exists()) {
         this.userData = snap.data()
-        this.totalXP = this.userData.stats.completedBooks.length * 10 + this.userData.stats.pagesRead + this.userData.stats.quizzesCompleted
+        for(let i of  this.userData.stats.quizzesCompleted){
+          this.quizScore += i.score
+        }
+        this.totalXP = this.userData.stats.completedBooks.length * 10 + this.userData.stats.pagesRead + this.quizScore
       }
     })
   },

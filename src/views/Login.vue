@@ -69,7 +69,7 @@ export default {
         },
         booksCompleted: 0,
         pagesRead: 0,
-        quizzesCompleted: 0,
+        quizzesCompleted: [],
         friends: [],
         clubs: [],
       }
