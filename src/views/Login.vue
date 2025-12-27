@@ -16,13 +16,13 @@ import { auth, db } from '../firebase'
         <div class="input_email w-full flex flex-col justify-between h-[80px]">
           <div class="input_text w-full flex-row flex justify-between">
             <span class="email opacity-[80%] text-white">Email</span>
-            <span class="opacity-[0]" :class="{ visible: this.visible == false }"
+            <span class="opacity-[0]" :class="{ visible: visible == false }"
               >Incorrect password!</span
             >
           </div>
           <input
             v-model="email"
-            :class="{ visibleInp: this.visible == false }"
+            :class="{ visibleInp: visible == false }"
             placeholder="you@example.com"
             type="text"
           />
@@ -34,7 +34,7 @@ import { auth, db } from '../firebase'
           </div>
           <input
             v-model="password"
-            :class="{ visibleInp: this.visible == false }"
+            :class="{ visibleInp: visible == false }"
             type="password"
             placeholder="******"
           />
