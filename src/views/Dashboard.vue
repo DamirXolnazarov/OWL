@@ -97,7 +97,7 @@ import ReadingChart from '@/components/ReadingChart.vue'
           <div
             class="glass-overlay absolute inset-0 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
           >
-            <button @click="$router.push('/friends')" class="glass-btn btn">
+            <button @click="$router.push('/leaderboard')" class="glass-btn btn">
               Explore Leaderboard
             </button>
           </div>
