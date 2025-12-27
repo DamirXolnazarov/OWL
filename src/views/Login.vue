@@ -122,6 +122,7 @@ export default {
 </script>
 
 <style scoped>
+
 .visibleInp {
   border: 2px solid red;
 }

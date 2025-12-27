@@ -18,6 +18,5 @@ import FeedbackCircle from './components/FeedbackCircle.vue';
 </template>
 
 <style scoped>
-
 </style>
 

@@ -5,7 +5,7 @@ import bannerImage from '../assets/landingpage.png'
 
 <template>
   <main
-    class="min-h-screen w-full flex flex-col items-center text-center overflow-x-hidden bg-white"
+    class="w-full flex flex-col items-center text-center overflow-x-hidden bg-white"
   >
     <!-- 🏠 Hero Section -->
     <section
@@ -79,9 +79,9 @@ import bannerImage from '../assets/landingpage.png'
             </span>
           </div>
           <div class="container_text_buttons flex flex-col items-center h-[170px] justify-between">
-            <button class="btn fr1" data-cursor="light">Find Friends</button>
+            <button class="btn fr1" data-cursor="light" @click="$router.push('/login')">Find Friends</button>
             <span class="container_text_subtitle1">or</span>
-            <button class="fr2 btn" data-cursor="light">Invite a Friend</button>
+            <button class="fr2 btn" @click="$router.push('/login')" data-cursor="light">Invite a Friend</button>
           </div>
         </div>
         <div class="container_image w-[708px]">
@@ -109,7 +109,7 @@ import bannerImage from '../assets/landingpage.png'
             >
           </div>
           <div class="tugma">
-            <button class="text-[#DCEAFF] leader btn">Explore Leaderboard</button>
+            <button @click="$router.push('/login')" class="text-[#DCEAFF] leader btn">Explore Leaderboard</button>
           </div>
         </div>
       </div>
@@ -132,7 +132,7 @@ import bannerImage from '../assets/landingpage.png'
           >
         </div>
         <div class="info_buttons h-[100px] items-center w-[550px] flex flex-row justify-between">
-          <button
+          <button @click="$router.push('/login')"
             class="hoverable group btn relative border-[#000000] text-[#000000] transition-all duration-500 overflow-hidden"
             data-cursor="light"
             id="btn3"
@@ -140,7 +140,7 @@ import bannerImage from '../assets/landingpage.png'
             Find a Club
           </button>
 
-          <button
+          <button @click="$router.push('/login')"
             class="hoverable group relative btn bg-[#000000] text-white border-2 border-[#000000] transition-all duration-500 overflow-hidden"
             data-cursor="light"
             id="btn4"
@@ -165,8 +165,8 @@ import bannerImage from '../assets/landingpage.png'
             >
           </div>
           <div class="quizzes_buttons w-full flex-col flex h-[140px] justify-between">
-            <button class="btn btn5" id="btn5">Start Quiz</button>
-            <button class="btn btn6" id="btn6">Explore Quizzes</button>
+            <button @click="$router.push('/login')" class="btn btn5" id="btn5">Start Quiz</button>
+            <button @click="$router.push('/login')" class="btn btn6" id="btn6">Explore Quizzes</button>
           </div>
         </div>
         <div class="quizzes_right">
@@ -456,6 +456,10 @@ blockquote {
   font-size: 20px;
   line-height: 125%;
   color: #9db2d4;
+}
+
+main{
+  min-height: 100vh;
 }
 .conta {
   padding: 15px 90px 15px 90px;
