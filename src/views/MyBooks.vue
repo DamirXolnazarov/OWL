@@ -285,6 +285,12 @@ export default {
 
       // Load completed books
       this.completedBooks = this.userData.stats.completedBooks || []
+      this.userData.stats.dailyPages = this.userData.stats.dailyPages || {}
+      this.userData.stats.streak = this.userData.stats.streak || {
+        current: 0,
+        longest: 0,
+        lastReadDate: null,
+      }
     })
   },
   methods: {
@@ -301,45 +307,81 @@ export default {
     },
 
     async updateProgress() {
-      if (!this.currentBook) return
-      const userRef = doc(db, 'users', auth.currentUser.uid)
+  if (!this.currentBook) return
+  const userRef = doc(db, 'users', auth.currentUser.uid)
 
-      // 1. Update currentBook pages read
-      this.currentBook.pagesRead = this.pagesRead
+  const stats = this.userData.stats || {}
 
-      // 2. Calculate total pages read including completed books
-      const completedPages = this.completedBooks.reduce((sum, book) => sum + (book.pages || 0), 0)
-      const totalPagesRead = completedPages + (this.currentBook.pagesRead || 0)
+  // Ensure dailyPages and streak exist
+  stats.dailyPages = stats.dailyPages || {}
+  stats.streak = stats.streak || { current: 0, longest: 0, lastReadDate: null }
 
-      // 3. Update Firestore
-      await updateDoc(userRef, {
-        'stats.booksInProgress.pagesRead': this.currentBook.pagesRead,
-        'stats.pagesRead': totalPagesRead,
-      })
+  // Calculate pages added
+  const previousPages = this.currentBook.pagesRead || 0
+  const pagesAdded = this.pagesRead - previousPages
+  if (pagesAdded <= 0) return
 
-      // 4. If book finished, move to completedBooks
-      if (this.pagesRead >= this.currentBook.pages) {
-        alert(`You successfully finished the book "${this.currentBook.name}"!`)
+  // Update current book pages
+  this.currentBook.pagesRead = this.pagesRead
 
-        const completedBook = {
-          ...this.currentBook,
-          rating: 0,
-          reflection: '',
-          reflected: false,
-        }
+  // Update total pages read including completed books
+  const completedPages = this.completedBooks.reduce((sum, book) => sum + (book.pages || 0), 0)
+  const totalPagesRead = completedPages + this.currentBook.pagesRead
 
-        // Add to completed books locally and Firestore
-        this.completedBooks.push(completedBook)
-        await updateDoc(userRef, {
-          'stats.completedBooks': this.completedBooks,
-          'stats.booksInProgress': {},
-          'stats.pagesRead': completedPages + completedBook.pages, // include finished book
-        })
+  // Update dailyPages for today
+  const today = new Date().toISOString().split('T')[0]
+  stats.dailyPages[today] = (stats.dailyPages[today] || 0) + pagesAdded
 
-        this.currentBook = null
-        this.pagesRead = 0
-      }
-    },
+  // Update streak
+  if (stats.streak.lastReadDate !== today) {
+    const yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+    const yesterdayStr = yesterday.toISOString().split('T')[0]
+
+    if (stats.streak.lastReadDate === yesterdayStr) {
+      stats.streak.current += 1
+    } else {
+      stats.streak.current = 1
+    }
+    stats.streak.longest = Math.max(stats.streak.longest, stats.streak.current)
+    stats.streak.lastReadDate = today
+  }
+
+  // Save updates to Firestore
+  await updateDoc(userRef, {
+    'stats.booksInProgress.pagesRead': this.currentBook.pagesRead,
+    'stats.pagesRead': totalPagesRead,
+    'stats.dailyPages': stats.dailyPages,
+    'stats.streak': stats.streak,
+  })
+
+  // Update local copy
+  this.userData.stats.dailyPages = stats.dailyPages
+  this.userData.stats.streak = stats.streak
+
+  // Move to completedBooks if finished
+  if (this.pagesRead >= this.currentBook.pages) {
+    alert(`You successfully finished the book "${this.currentBook.name}"!`)
+
+    const completedBook = {
+      ...this.currentBook,
+      rating: 0,
+      reflection: '',
+      reflected: false,
+    }
+
+    this.completedBooks.push(completedBook)
+    await updateDoc(userRef, {
+      'stats.completedBooks': this.completedBooks,
+      'stats.booksInProgress': {},
+      'stats.pagesRead': completedPages + completedBook.pages,
+    })
+
+    this.currentBook = null
+    this.pagesRead = 0
+  }
+}
+,
     async submitNewBook() {
       // RESET ERROR
       this.genreError = false

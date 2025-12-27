@@ -1,13 +1,14 @@
 <script setup>
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth"
-import { doc, setDoc, getDoc } from "firebase/firestore"
-import { auth, db } from "../firebase"
-
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
+import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { auth, db } from '../firebase'
 </script>
 
 <template>
   <section class="w-full h-full flex flex-row justify-center items-center">
-    <div class="login w-[390px] shadow-md flex flex-col justify-between items-center bg-[#000] h-[430px]">
+    <div
+      class="login w-[390px] shadow-md flex flex-col justify-between items-center bg-[#000] h-[430px]"
+    >
       <div class="title w-full flex justify-center">
         <span class="text-center text-5xl text-white">Sign In</span>
       </div>
@@ -15,16 +16,28 @@ import { auth, db } from "../firebase"
         <div class="input_email w-full flex flex-col justify-between h-[80px]">
           <div class="input_text w-full flex-row flex justify-between">
             <span class="email opacity-[80%] text-white">Email</span>
-            <span class="opacity-[0]" :class="{visible: this.visible==false}">Incorrect password!</span>
+            <span class="opacity-[0]" :class="{ visible: this.visible == false }"
+              >Incorrect password!</span
+            >
           </div>
-          <input v-model="email" :class="{visibleInp: this.visible==false}" placeholder="you@example.com" type="text" />
+          <input
+            v-model="email"
+            :class="{ visibleInp: this.visible == false }"
+            placeholder="you@example.com"
+            type="text"
+          />
         </div>
         <div class="input_password w-full flex flex-col justify-between h-[110px]">
-           <div class="input_text w-full flex-row flex justify-between">
+          <div class="input_text w-full flex-row flex justify-between">
             <span class="email opacity-[80%] text-white">Password</span>
             <span class="additionals">Forgot?</span>
           </div>
-          <input v-model="password" :class="{visibleInp: this.visible==false}" type="password" placeholder="******" />
+          <input
+            v-model="password"
+            :class="{ visibleInp: this.visible == false }"
+            type="password"
+            placeholder="******"
+          />
           <div class="create w-full flex flex-row justify-end">
             <span class="additionals text-right">Create an Account</span>
           </div>
@@ -49,83 +62,79 @@ export default {
   },
   methods: {
     async ensureUserExists(user) {
-  const userRef = doc(db, "users", user.uid)
-  const snap = await getDoc(userRef)
+      const userRef = doc(db, 'users', user.uid)
+      const snap = await getDoc(userRef)
 
-  if (!snap.exists()) {
-    const username = this.email.split("@")[0]
+      if (!snap.exists()) {
+        const username = this.email.split('@')[0]
 
-    await setDoc(userRef, {
-      email: this.email,
-      username,
-      createdAt: new Date(),
-      stats: {
-        booksInProgress: {
-          author: '',
-          name: '',
-          pages: 0,
-          type: [],
-          rating: 0,
-        },
-        booksCompleted: 0,
-        pagesRead: 0,
-        quizzesCompleted: [],
-        friends: [],
-        clubs: [],
+        await setDoc(userRef, {
+          email: this.email,
+          username,
+          createdAt: new Date(),
+          stats: {
+            booksInProgress: {
+              author: '',
+              name: '',
+              pages: 0,
+              type: [],
+              rating: 0,
+              streak: {
+                current: 0,
+                longest: 0,
+                lastReadDate: null,
+              },
+              dailyPages: {},
+            },
+            booksCompleted: 0,
+
+            pagesRead: 0,
+            quizzesCompleted: [],
+            friends: [],
+            clubs: [],
+          },
+        })
       }
-    })
-  }
-},
+    },
 
     async check() {
-  this.visible = true
+      this.visible = true
 
-  try {
-    // try login
-    const cred = await signInWithEmailAndPassword(
-      auth,
-      this.email,
-      this.password
-    )
+      try {
+        // try login
+        const cred = await signInWithEmailAndPassword(auth, this.email, this.password)
 
-    await this.ensureUserExists(cred.user)
-    this.$router.push('/dashboard')
+        await this.ensureUserExists(cred.user)
+        this.$router.push('/dashboard')
+      } catch (error) {
+        try {
+          // if user doesn't exist → create account
+          const cred = await createUserWithEmailAndPassword(auth, this.email, this.password)
 
-  } catch (error) {
-    try {
-      // if user doesn't exist → create account
-      const cred = await createUserWithEmailAndPassword(
-        auth,
-        this.email,
-        this.password
-      )
-
-      await this.ensureUserExists(cred.user)
-      this.$router.push('/dashboard')
-
-    } catch {
-      // wrong password, weak password, etc.
-      this.visible = false
-    }
-  }
-}
-
+          await this.ensureUserExists(cred.user)
+          this.$router.push('/dashboard')
+        } catch {
+          // wrong password, weak password, etc.
+          this.visible = false
+        }
+      }
+    },
   },
 }
 </script>
 
 <style scoped>
-.visibleInp{
+.visibleInp {
   border: 2px solid red;
 }
-.visible{
+.visible {
   color: red;
   opacity: 100%;
   font-weight: 300;
 }
-.additionals{
+.additionals {
   font-size: 16px;
-  color: #0080FF;
+  color: #0080ff;
   cursor: pointer;
   font-weight: 300;
 }
@@ -143,7 +152,7 @@ input {
   border: 2px solid #ffffff;
   border-radius: 9px;
 }
-input::placeholder{
+input::placeholder {
   color: grey;
 }
 section {

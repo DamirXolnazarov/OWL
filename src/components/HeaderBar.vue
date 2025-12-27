@@ -51,27 +51,31 @@ onAuthStateChanged(auth, (user) => {
 
     <!-- Right: Navigation -->
     <div class="flex items-center gap-8 text-sm font-medium">
-      <RouterLink to="/friends" class="flex flex-col items-center hover:text-primary transition">
+      <RouterLink to="/mybooks" class="traa flex flex-col items-center hover:text-primary transition">
+        <img src="../assets/open-book.png" alt="Books" class="h-[28px]" />
+        <span>My books</span>
+      </RouterLink>
+      <RouterLink to="/friends" class="traa flex flex-col items-center hover:text-primary transition">
         <img src="../assets/friends.png" alt="Friends" class="h-[28px]" />
         <span>Friends</span>
       </RouterLink>
 
-      <RouterLink to="/leaderboard" class="flex flex-col items-center hover:text-primary transition">
+      <RouterLink to="/leaderboard" class="traa flex flex-col items-center hover:text-primary transition">
         <img src="../assets/leaderboard.png" alt="Leaderboard" class="h-[28px]" />
         <span>Leaderboard</span>
       </RouterLink>
 
-      <RouterLink to="/clubs" class="flex flex-col items-center hover:text-primary transition">
+      <RouterLink to="/dashboard" class="traa flex flex-col items-center hover:text-primary transition">
         <img src="../assets/clubs.png" alt="Clubs" class="h-[28px]" />
         <span>Clubs</span>
       </RouterLink>
 
-      <RouterLink to="/quizzes" class="flex flex-col items-center hover:text-primary transition">
+      <RouterLink to="/quizzes" class="traa flex flex-col items-center hover:text-primary transition">
         <img src="../assets/quiz.png" alt="Quizzes" class="h-[28px]" />
         <span>Quizzes</span>
       </RouterLink>
 
-      <RouterLink to="/profile" class="flex flex-col items-center hover:text-primary transition">
+      <RouterLink to="/profile" class="traa flex flex-col items-center hover:text-primary transition">
         <img src="../assets/profile.png" alt="Profile" class="h-[28px]" />
         <span>Profile</span>
       </RouterLink>
@@ -90,4 +94,9 @@ header{
 .input{
   padding: 0px 15px;
 }
+.traa{
+  cursor: pointer;
+}
+
+
 </style>

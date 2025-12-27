@@ -44,7 +44,7 @@
           <img v-else-if="index === 2" src="../assets/third.png" class="w-[35px] h-[35px]" />
 
           <!-- Rank number (after top 3) -->
-          <span v-else class="text-sm font-bold">
+          <span v-else class="text-[20px] w-[37px] text-center font-normal">
             {{ index + 1 }}
           </span>
 
@@ -57,7 +57,7 @@
         <div class="stat_right flex flex-row gap-4 text-[17px]">
           <span>B: {{ user.stats.booksCompleted }}</span>
           <span>P: {{ user.stats.pagesRead }}</span>
-          <span>Q: {{ user.stats.quizzesCompleted }}</span>
+          <span>Q: {{ user.stats.quizzesCompleted.length }}</span>
           <span class="font-bold">T: {{ user.totalXP }} XP</span>
         </div>
       </div>
@@ -95,9 +95,8 @@ export default {
 
     this.users = snapshot.docs.map((doc) => {
       const data = doc.data()
-
       const totalXP =
-        data.stats.booksCompleted * 10 + data.stats.pagesRead + data.stats.quizzesCompleted
+        data.stats.booksCompleted * 10 + data.stats.pagesRead + data.stats.quizzesCompleted.length
 
       return {
         id: doc.id,

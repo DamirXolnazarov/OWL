@@ -15,6 +15,9 @@ import { RouterLink } from 'vue-router'
 
       <!-- Navigation -->
       <div class="footer-links">
+       <RouterLink to="/mybooks" class="flex flex-col items-center hover:text-primary transition">
+        <span>My books</span>
+      </RouterLink>
        <RouterLink to="/friends" class="flex flex-col items-center hover:text-primary transition">
         <span>Friends</span>
       </RouterLink>
