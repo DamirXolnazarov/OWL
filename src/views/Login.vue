@@ -10,7 +10,7 @@ import { auth, db } from '../firebase'
       class="login w-[390px] shadow-md flex flex-col justify-between items-center bg-[#000] h-[430px]"
     >
       <div class="title w-full flex justify-center">
-        <span class="text-center text-5xl text-white">Sign In</span>
+        <span class="text-center text-5xl text-white">Sign Up</span>
       </div>
       <div class="inputs h-[210px] flex flex-col justify-between w-full">
         <div class="input_email w-full flex flex-col justify-between h-[80px]">
@@ -30,7 +30,6 @@ import { auth, db } from '../firebase'
         <div class="input_password w-full flex flex-col justify-between h-[110px]">
           <div class="input_text w-full flex-row flex justify-between">
             <span class="email opacity-[80%] text-white">Password</span>
-            <span class="additionals">Forgot?</span>
           </div>
           <input
             v-model="password"
@@ -39,7 +38,6 @@ import { auth, db } from '../firebase'
             placeholder="******"
           />
           <div class="create w-full flex flex-row justify-end">
-            <span class="additionals text-right">Create an Account</span>
           </div>
         </div>
       </div>
