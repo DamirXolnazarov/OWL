@@ -51,6 +51,10 @@ onAuthStateChanged(auth, (user) => {
 
     <!-- Right: Navigation -->
     <div class="flex items-center gap-8 text-sm font-medium">
+      <RouterLink :to="isSignedIn ? '/books' : '/'" class="traa flex flex-col items-center hover:text-primary transition">
+        <img src="../assets/book.png" alt="Books" class="h-[28px]" />
+        <span>Library</span>
+      </RouterLink>
       <RouterLink :to="isSignedIn ? '/mybooks' : '/'" class="traa flex flex-col items-center hover:text-primary transition">
         <img src="../assets/open-book.png" alt="Books" class="h-[28px]" />
         <span>My books</span>

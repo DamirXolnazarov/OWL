@@ -7,6 +7,8 @@ import Leaderboard from '@/views/Leaderboard.vue'
 import MyBooks from '@/views/MyBooks.vue'
 import Quizzes from '@/views/Quizzes.vue'
 import Profile from '@/views/Profile.vue'
+import Books from '@/views/Books.vue'
+import BookDetail from '@/views/BookDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +53,17 @@ const router = createRouter({
       name: 'profile',
       component: Profile,
     },
+    {
+      path: '/books',
+      name: 'books',
+      component: Books,
+    },
+     {
+    path: '/books/:title',
+    name: 'BookDetail',
+    component: BookDetail,
+    props: true, // optional but useful
+  },
     // {
     //   path: '/about',
     //   name: 'about',
