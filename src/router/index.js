@@ -9,6 +9,8 @@ import Quizzes from '@/views/Quizzes.vue'
 import Profile from '@/views/Profile.vue'
 import Books from '@/views/Books.vue'
 import BookDetail from '@/views/BookDetail.vue'
+import Clubs from '@/views/Clubs.vue'
+import CreateClub from '@/views/CreateClub.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -58,6 +60,22 @@ const router = createRouter({
       name: 'books',
       component: Books,
     },
+    {
+      path: '/clubs',
+      name: 'clubs',
+      component: Clubs,
+    },
+    {
+      path: '/clubs/create',
+      name: 'CreateClub',
+      component: CreateClub,
+    },
+    {
+  path: '/clubs/chat/:id',
+  name: 'ClubChat',
+  component: () => import('@/views/ClubChat.vue'),
+},
+
      {
     path: '/books/:title',
     name: 'BookDetail',
