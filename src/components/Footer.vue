@@ -84,6 +84,55 @@ import { RouterLink } from 'vue-router'
   display: flex;
   gap: 20px;
 }
+/* =========================
+   RESPONSIVE FOOTER
+========================= */
+
+/* Tablets */
+@media (max-width: 900px) {
+  .footer-content {
+    gap: 20px;
+  }
+
+  .footer-links {
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* Phones */
+@media (max-width: 640px) {
+  .footer {
+    padding: 32px 0 !important;
+    height: 600px !important;
+  }
+
+  .footer-content {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 24px !important;
+  }
+
+  .footer-left {
+    justify-content: center;
+  }
+
+  .footer-logo {
+    width: 90px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-right {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+}
+
 
 .footer-links span {
   color: #d8d8d8;

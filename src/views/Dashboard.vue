@@ -368,6 +368,120 @@ export default {
 .second_layer1 > div:last-child {
   animation: glassPulse 3s ease-in-out infinite;
 }
+/* ===== RESPONSIVE SAFETY ===== */
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 1024px) {
+  .content {
+    padding: 25px 30px;
+  }
+}
+
+@media (max-width: 640px) {
+  .content {
+    padding: 20px 15px;
+  }
+}
+@media (max-width: 1024px) {
+  .first_layer {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .first_layer1,
+  .first_layer3 {
+    width: 100%;
+    height: auto;
+  }
+}
+@media (max-width: 1024px) {
+  .first_layer {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .first_layer1,
+  .first_layer3 {
+    width: 100%;
+    height: auto;
+  }
+}
+@media (max-width: 1024px) {
+  .second_layer {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .second_layer1,
+  .second_layer2,
+  .second_layer3 {
+    width: 100%;
+    height: auto;
+  }
+}
+@media (max-width: 640px) {
+  .friends_card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .streak {
+    align-self: flex-end;
+  }
+
+  .carrds {
+    max-height: 180px;
+  }
+}
+@media (max-width: 640px) {
+  .carousel {
+    height: 160px;
+  }
+
+  .carousel img {
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .btn-circle {
+    width: 35px;
+    height: 35px;
+  }
+}
+@media (max-width: 768px) {
+  .glass-overlay {
+    opacity: 1 !important;
+    position: relative;
+    background: none;
+    backdrop-filter: none;
+    border: none;
+  }
+
+  .glass-btn {
+    margin-top: 10px;
+  }
+}
+@media (max-width: 640px) {
+  .title h1 {
+    font-size: 32px;
+    text-align: center;
+  }
+}
+@media (max-width: 380px) {
+  .glass-btn,
+  .clubBtn {
+    width: 100%;
+    text-align: center;
+  }
+}
 
 .clubBtn {
   padding: 15px 30px;

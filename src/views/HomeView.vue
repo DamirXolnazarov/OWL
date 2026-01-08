@@ -9,7 +9,7 @@ import bannerImage from '../assets/landingpage.png'
   >
     <!-- 🏠 Hero Section -->
     <section
-      class="hero-content flex flex-col items-center justify-center px-6"
+      class="hero-content flex flex-col items-center justify-center"
       data-cursor="expand"
     >
       <h1 class="text-5xl md:text-7xl font-semibold text-gray-900 leading-tight tracking-tight">
@@ -66,14 +66,14 @@ import bannerImage from '../assets/landingpage.png'
         <div class="container_text flex flex-col items-start justify-between w-[400px]">
           <div class="container_text_title text-left">
             <span
-              >Read <br />
+              >Read 
               Together, <br />
-              Learn <br />
+              Learn 
               Together</span
             >
           </div>
           <div class="container_text_subtitle text-left">
-            <span class="text-lg">
+            <span class="text-lg subs">
               Connect with your friends and make reading more fun.See what they’re exploring, share
               book suggestions, and start meaningful discussions together.
             </span>
@@ -183,7 +183,6 @@ import bannerImage from '../assets/landingpage.png'
                 decimalSeparator="."
                 :decimals="0"
                 :autoinit="true"
-                @finished="alert(`Counting finished!`)"
                 />
               </div>
               <span class="blah">Quizzes</span>
@@ -200,7 +199,6 @@ import bannerImage from '../assets/landingpage.png'
                 decimalSeparator="."
                 :decimals="0"
                 :autoinit="true"
-                @finished="alert(`Counting finished!`)"
                 />
               </div>
               <span class="blah">Completed</span>
@@ -217,7 +215,6 @@ import bannerImage from '../assets/landingpage.png'
                 decimalSeparator="."
                 :decimals="0"
                 :autoinit="true"
-                @finished="alert(`Counting finished!`)"
                 />
               </div>
               <span class="blah">New</span>
@@ -235,6 +232,216 @@ import bannerImage from '../assets/landingpage.png'
 </template>
 
 <style scoped>
+/* ===== RESPONSIVE SAFETY ===== */
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 38px !important;
+    line-height: 1.2 !important;
+  }
+  main{
+    padding-top: 20px !important;
+  }
+  .subheading {
+    font-size: 16px !important;
+    padding: 0 10px;
+  }
+  .banner {
+    margin-top: -35px !important;
+    height: 220px;
+  }
+
+  .buttons {
+    gap: 14px;
+  }
+  button{
+    font-size: 12px !important;
+    padding: 10px 17px !important;
+  }
+}
+@media (max-width: 768px) {
+  blockquote {
+    font-size: 22px !important;
+    width: 90% !important;
+  }
+
+  cite {
+    width: 90% !important;
+    font-size: 16px !important;
+    text-align: center !important;
+    margin-top: -20px;
+  }
+
+  .quote {
+    margin-top: 40px !important;
+  }
+}
+@media (max-width: 1024px) {
+  .conta {
+    flex-direction: column !important;
+    gap: 40px !important;
+    padding: 0px 20px !important;
+  }
+  .subs{
+    font-size: 15px !important;
+  }
+  .container_text_subtitle1{
+    font-size: 15px !important;
+  }
+  button{
+    width: 150px !important;
+  }
+  .container_text {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    gap: 20px !important;
+  }
+  .container_text_buttons{
+    flex-direction: column !important;
+    height: 120px !important;
+    justify-content: space-between;
+    width: 100% !important;
+
+  }
+ 
+  .container_text_title {
+    font-size: 35px !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+  }
+  .container_text_subtitle {
+    font-size: 12px !important;
+    text-align: center !important;
+  }
+
+  .container_image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .container_image img {
+    width: 90%;
+  }
+}
+@media (max-width: 1024px) {
+  .ikta {
+    flex-direction: column-reverse;
+    gap: 40px !important;
+    padding: 0px 20px !important;
+  }
+  .tugma{
+    width: 100% !important;
+    display: flex;
+    flex-direction: row !important;
+    justify-content: center !important;
+  }
+  .bitta img {
+    width: 100% !important;
+  }
+  .ranking{
+    padding: 10px !important;
+  }
+  .ikki {
+    width: 100% !important;
+    gap: 20px !important;
+    height: auto !important;
+    padding-top: 25px !important;
+  }
+
+  .sarlavha {
+    font-size: 40px !important;
+    line-height: 1.2 !important;
+  }
+
+  .description {
+    font-size: 15px !important;
+  }
+}
+@media (max-width: 768px) {
+  .clubs {
+    padding: 0px 20px !important;
+  }
+
+  .info_title span {
+    font-size: 41px !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+  }
+
+  .info_subtitle {
+    padding: 10px 20px !important;
+  }
+
+  .info_buttons {
+    width: 100% !important;
+    flex-direction: column;
+    gap: 15px !important;
+  }
+}
+@media (max-width: 1024px) {
+  .quizzes {
+    padding: 30px 20px !important;
+  }
+
+  .quizzes_box {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .quizzes_left {
+    width: 100% !important;
+    text-align: center;
+    align-items: center;
+    gap: 20px !important;
+  }
+
+  .quizzes_title span {
+    font-size: 44px !important;
+    line-height: 1.2 !important;
+
+  }
+
+  .quizzes_subtitle span {
+    font-size: 17px !important;
+  }
+
+  .quizzes_buttons {
+    align-items: center !important;
+    flex-direction: column;
+    justify-content: center;
+    height: 100px !important;
+    gap: 15px !important;
+  }
+
+  .quizzes_numbers {
+    flex-direction: column !important;
+    gap: 0px !important;
+    align-items: center !important;
+  }
+  button{
+    width: 150px !important;
+  }
+  .number_box {
+    width: 120px;
+    height: 80px;
+    font-size: 42px;
+  }
+}
+@media (max-width: 480px) {
+  button {
+    width: 100% !important;
+    max-width: 280px;
+  }
+}
 
 .number{
   display: flex;

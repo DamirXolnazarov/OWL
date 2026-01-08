@@ -159,6 +159,78 @@ section {
   font-family: 'Poppins';
   font-weight: 600;
 }
+* {
+  box-sizing: border-box;
+}
+
+input,
+button {
+  max-width: 100%;
+}
+@media (max-width: 640px) {
+  section {
+    padding: 40px 15px;
+  }
+
+  .login {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    padding: 30px 20px;
+  }
+}
+@media (max-width: 640px) {
+  input {
+    width: 100%;
+    height: 44px;
+    font-size: 15px;
+  }
+
+  .inputs {
+    height: auto;
+    gap: 18px;
+  }
+
+  .input_email,
+  .input_password {
+    height: auto;
+    gap: 10px;
+  }
+}
+@media (max-width: 640px) {
+  .title span {
+    font-size: 36px;
+  }
+
+  .loginbtn {
+    font-size: 20px;
+    padding: 18px 35px;
+  }
+}
+@media (max-width: 640px) {
+  .input_text {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .visible {
+    font-size: 13px;
+  }
+
+  .input_text .email {
+    font-size: 16px;
+  }
+}
+@media (max-width: 380px) {
+  .login {
+    padding: 25px 16px;
+  }
+
+  .loginbtn {
+    width: 100%;
+  }
+}
+
 .login {
   padding: 35px 30px;
   border-radius: 15px;

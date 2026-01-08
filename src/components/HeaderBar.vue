@@ -8,6 +8,12 @@ const isSignedIn = ref(false)
 onAuthStateChanged(auth, (user) => {
   isSignedIn.value = !!user
 })
+const isMenuOpen = ref(false)
+
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value
+}
+
 </script>
 
 <template>
@@ -48,9 +54,18 @@ onAuthStateChanged(auth, (user) => {
         />
       </label>
     </div>
+   <!-- Mobile Hamburger -->
+<button
+  @click="toggleMenu"
+  class="md:hidden flex flex-col justify-center items-center gap-1"
+>
+  <span class="w-6 h-[2px] bg-base-content"></span>
+  <span class="w-6 h-[2px] bg-base-content"></span>
+  <span class="w-6 h-[2px] bg-base-content"></span>
+</button>
 
     <!-- Right: Navigation -->
-    <div class="flex items-center gap-8 text-sm font-medium">
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium">
       <RouterLink :to="isSignedIn ? '/books' : '/'" class="traa flex flex-col items-center hover:text-primary transition">
         <img src="../assets/book.png" alt="Books" class="h-[28px]" />
         <span>Library</span>
@@ -85,6 +100,29 @@ onAuthStateChanged(auth, (user) => {
       </RouterLink>
     </div>
   </header>
+  <!-- Mobile Menu Overlay -->
+<div
+  v-if="isMenuOpen"
+  class="fixed inset-0 bg-black/40 z-40"
+  @click="toggleMenu"
+></div>
+
+<!-- Mobile Menu -->
+<div
+  class="fixed top-0 right-0 h-full w-[260px] bg-base-100 z-50 shadow-xl transform transition-transform duration-300 md:hidden"
+  :class="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
+>
+  <div class="textca flex flex-col p-6 pt-10 text-sm font-medium">
+    <RouterLink class="border-b border-t ss" @click="toggleMenu" to="/books">Library</RouterLink>
+    <RouterLink class="border-b border-t ss" @click="toggleMenu" to="/mybooks">My books</RouterLink>
+    <RouterLink class="border-b border-t ss" @click="toggleMenu" to="/friends">Friends</RouterLink>
+    <RouterLink class="border-b border-t ss" @click="toggleMenu" to="/leaderboard">Leaderboard</RouterLink>
+    <RouterLink class="border-b border-t ss" @click="toggleMenu" to="/dashboard">Clubs</RouterLink>
+    <RouterLink class="border-b border-t ss" @click="toggleMenu" to="/quizzes">Quizzes</RouterLink>
+    <RouterLink class="border-b border-t ss" @click="toggleMenu" to="/profile">Profile</RouterLink>
+  </div>
+</div>
+
 </template>
 
 <style scoped>
@@ -101,6 +139,16 @@ header{
 .traa{
   cursor: pointer;
 }
+@media (max-width: 1024px) {
+header{
+  padding-left: 30px !important;
+}
 
-
+}
+.textca{
+  padding: 15px 25px;
+}
+.ss{
+  padding: 10px 10px;
+}
 </style>
