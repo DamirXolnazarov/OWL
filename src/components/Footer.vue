@@ -105,7 +105,7 @@ import { RouterLink } from 'vue-router'
 @media (max-width: 640px) {
   .footer {
     padding: 32px 0 !important;
-    height: 600px !important;
+    height: 400px !important;
   }
 
   .footer-content {

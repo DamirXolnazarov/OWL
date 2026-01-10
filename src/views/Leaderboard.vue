@@ -2,7 +2,7 @@
   <section class="leaderboard_page flex flex-col items-center gap-6">
     <!-- Search -->
     <div class="searchBar flex flex-row justify-center items-center">
-      <div class="hidden md:flex items-center w-[550px]">
+      <div class="flex items-center w-full md:w-[550px]">
         <label class="input h-[50px] input-bordered rounded-full flex items-center gap-2 w-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +34,7 @@
       <div
         v-for="(user, index) in filteredUsers"
         :key="user.id"
-        class="leaderboard_row w-full h-[45px] flex flex-row justify-between items-center px-4"
+        class="leaderboard_row w-full flex flex-row justify-between items-center px-4"
       >
         <!-- Left -->
         <div class="stat_left flex flex-row items-center gap-3">
@@ -55,7 +55,7 @@
 
         <!-- Right -->
         <div class="stat_right flex flex-row gap-4 text-[17px]">
-          <span>B: {{ user.stats.booksCompleted }}</span>
+          <span>B: {{ user.stats?.completedBooks?.length || 0 }}</span>
           <span>P: {{ user.stats.pagesRead }}</span>
           <span>Q: {{ user.stats.quizzesCompleted.length }}</span>
           <span class="font-bold">T: {{ user.totalXP }} XP</span>
@@ -96,7 +96,7 @@ export default {
     this.users = snapshot.docs.map((doc) => {
       const data = doc.data()
       const totalXP =
-        data.stats.booksCompleted * 10 + data.stats.pagesRead + data.stats.quizzesCompleted.length
+        (data.stats?.completedBooks?.length || 0) * 10 + data.stats.pagesRead + data.stats.quizzesCompleted.length
 
       return {
         id: doc.id,
@@ -110,8 +110,9 @@ export default {
 
 <style scoped>
 .leaderboard_row {
-  width: 900px;
-  height: 80px;
+  width: 100%;
+  max-width: 900px;
+  min-height: 80px;
   background-color: white;
   padding: 15px 25px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -122,5 +123,68 @@ export default {
 }
 .input {
   padding: 0px 15px;
+}
+
+@media (max-width: 900px) {
+  .leaderboard{
+    padding: 0px 25px;
+  }
+  .leaderboard_row {
+    padding: 12px 18px;
+  }
+
+  h1 {
+    font-size: 42px;
+  }
+
+  .stat_right {
+    font-size: 15px;
+    gap: 12px;
+    justify-content: center;
+  }
+}
+
+/* Phones */
+@media (max-width: 640px) {
+  .searchBar {
+    padding: 0 16px;
+  }
+
+  .searchBar .md\\:flex {
+    display: flex !important;
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 32px;
+    text-align: center;
+  }
+
+  .leaderboard_row {
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+    min-height: auto;
+  }
+
+  .stat_left {
+    gap: 10px;
+  }
+
+  .name {
+    font-size: 17px;
+  }
+
+  .stat_right {
+    width: 100%;
+    flex-wrap: wrap;
+    text-align: center;
+    gap: 6px 14px;
+    font-size: 14px;
+  }
+
+  .stat_right span:last-child {
+    font-weight: 600;
+  }
 }
 </style>

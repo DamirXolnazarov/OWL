@@ -1,7 +1,7 @@
 <template>
   <section class="friends_box h-full">
     <div class="searchBar flex flex-row justify-center items-center">
-      <div class="hidden md:flex items-center w-[550px]">
+      <div class="flex items-center w-full md:w-[550px]">
         <label class="input h-[50px] input-bordered rounded-full flex items-center gap-2 w-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -48,9 +48,8 @@
             >Total XP:
             {{
               user?.stats?.quizzesCompleted?.length +
-                user?.stats?.pagesRead +
-                user?.stats?.booksCompleted * 10
-
+              user?.stats?.pagesRead +
+              user?.stats?.booksCompleted * 10
             }}</span
           >
 
@@ -144,8 +143,9 @@ section {
   margin-bottom: 20px;
 }
 .person-card {
-  width: 900px;
-  height: 80px;
+  width: 100%;
+  max-width: 900px;
+  min-height: 80px;
   background-color: white;
   padding: 15px 25px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -161,5 +161,62 @@ section {
 }
 .people {
   padding-top: 20px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+@media (max-width: 900px) {
+  .person-card {
+    padding: 14px 18px;
+  }
+
+  .right {
+    gap: 15px;
+  }
+
+  h1.title {
+    font-size: 42px;
+  }
+}
+
+/* Phones */
+@media (max-width: 640px) {
+  .searchBar {
+    padding: 0 25px;
+  }
+
+  .searchBar .md\\:flex {
+    display: flex !important;
+    width: 100%;
+  }
+
+  h1.title {
+    font-size: 32px;
+  }
+
+  .person-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    min-height: auto;
+  }
+
+  .left span:first-child {
+    font-size: 20px;
+  }
+
+  .right {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 14px;
+  }
+
+  .follow {
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+  }
 }
 </style>

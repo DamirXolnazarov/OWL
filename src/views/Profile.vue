@@ -137,8 +137,9 @@ export default {
 }
 .blokcc {
   margin-top: 50px;
-  width: 500px;
-  height: 220px;
+  width: 100%;
+  max-width: 500px;
+  min-height: 220px;
   border-radius: 14px;
   padding: 20px 30px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -156,7 +157,73 @@ export default {
   min-height: 100vh;
 }
 .input {
-  padding: 5px 15px;
-  width: 280px;
+ padding: 5px 15px;
+  width: 100%;
 }
+
+/* =========================
+   RESPONSIVE PROFILE PAGE
+========================= */
+
+/* Tablets */
+@media (max-width: 900px) {
+  .blokcc {
+    padding: 20px;
+  }
+  .label{
+    display: none;
+  }
+  h1 {
+    font-size: 42px;
+  }
+}
+
+/* Phones */
+@media (max-width: 640px) {
+  .profile_page {
+    padding: 30px 25px;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
+  .dataaas {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .left,
+  .right {
+    width: 100%;
+    height: auto;
+  }
+
+  .left {
+    gap: 12px;
+  }
+
+  .right {
+    gap: 12px;
+  }
+
+  .label {
+    font-size: 14px;
+  }
+
+  .blokcc {
+    gap: 18px;
+    min-height: auto;
+  }
+
+  .btttns {
+    width: 100%;
+  }
+
+  .blokcc > div:last-child {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
 </style>
