@@ -373,10 +373,6 @@ export default {
   box-sizing: border-box;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
 
 @media (max-width: 1024px) {
   .content {
@@ -444,11 +440,6 @@ img {
 @media (max-width: 640px) {
   .carousel {
     height: 160px;
-  }
-
-  .carousel img {
-    height: 100%;
-    object-fit: contain;
   }
 
   .btn-circle {
