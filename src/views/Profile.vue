@@ -8,7 +8,7 @@
           <label class="label">Email:</label>
           <label class="label">New Password:</label>
         </div>
-        <div class="right flex flex-col h-[120px] justify-between">
+        <div class="right w-[65%] flex flex-col h-[120px] justify-between">
           <input
             class="input input-bordered"
             v-model="form.username"
@@ -157,7 +157,7 @@ export default {
   min-height: 100vh;
 }
 .input {
- padding: 5px 15px;
+  padding: 5px 15px;
   width: 100%;
 }
 

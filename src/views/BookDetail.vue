@@ -155,6 +155,7 @@ onMounted(async () => {
 }
 .card {
   padding: 15px 15px;
+  margin-top: 15px;
 }
 button {
   padding: 0px 15px;
